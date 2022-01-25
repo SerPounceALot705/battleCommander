@@ -1,6 +1,7 @@
 import { StyleSheet, View } from "react-native";
 import Login from "./components/login/login.js";
 import Registration from "./components/registration/registration.js";
+import Restore from "./components/restore/restore.js"
 import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -27,7 +28,7 @@ export default function App() {
             name="login"
             component={Login}
             options={{
-              title: "Login page",
+              title: "Авторизация",
               headerStyle: {
                 backgroundColor: "#0e0e0e",
                 borderBottomColor: "#978665",
@@ -43,6 +44,21 @@ export default function App() {
             component={Registration}
             options={{
               title: "Login page",
+              headerStyle: {
+                backgroundColor: "#0e0e0e",
+                borderBottomColor: "#978665",
+              },
+              headerTintColor: "#978665",
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+            }}
+          />
+          <Stack.Screen
+            name="Restore"
+            component={Restore}
+            options={{
+              title: "Restore password",
               headerStyle: {
                 backgroundColor: "#0e0e0e",
                 borderBottomColor: "#978665",
