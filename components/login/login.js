@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import React, { useState } from "react";
 import { TextInput, Button } from "react-native-paper";
+import { ValidationEmail, ValidationPassword } from "../extensions/validation";
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
@@ -9,16 +10,9 @@ export default function Login({ navigation }) {
   const [isValidPassword, setValidPassword] = useState(true);
   const [isShowPassword, setShowPassword] = useState(true);
 
-  const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-  const passwodrRegex = /(?=.*[0-9])(?=.*[a-z])[0-9a-zA-Z!@#$%^&*]{6,}/g;
-
   const checkInputValue = () => {
-    !(email.trim() && emailRegex.test(email))
-      ? setValidEmail(false)
-      : setValidEmail(true);
-    !(password.trim() && passwodrRegex.test(password))
-      ? setValidPassword(false)
-      : setValidPassword(true);
+    !ValidationEmail(email) ? setValidEmail(false) : setValidEmail(true);
+    !ValidationPassword(password) ? setValidPassword(false) : setValidPassword(true);
   };
 
   return (

@@ -2,27 +2,18 @@ import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { TextInput, Button } from "react-native-paper";
 
-export default function Restore({navigation}) {
-  const [email, setEmail] = useState("");
-
+export default function Message({navigation}) {
   return (
     <View style={styles.container}>
       <Text style={styles.textTitle}>
-        Введите почту, указанную при регистрации
+        На указанную Вами почту, отправлена ссылка для восстановления пароля
       </Text>
-      <TextInput
-        mode={"outlined"}
-        label="Email"
-        value={email}
-        onChangeText={(text) => setEmail(text)}
-        style={styles.textInput}
-      />
       <Button
         mode="contained"
         style={styles.loginButton}
-        onPress={() => navigation.navigate("Message")}
+        onPress={() => navigation.navigate("Login")}
       >
-        Восстановить
+        Вернуться на главную
       </Button>
     </View>
   );
