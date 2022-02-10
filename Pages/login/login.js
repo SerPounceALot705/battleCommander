@@ -1,32 +1,40 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 import React, { useState } from "react";
 import { TextInput, Button } from "react-native-paper";
-import { ValidationEmail, ValidationPassword } from "../extensions/validation"
+import { ValidationEmail, ValidationPassword } from "../../components/extensions/validation";
+import loginUser from "./hooks/loginUser";
 
-export default function Registration({ navigation }) {
+export default function Login({ navigation, setToken }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  
   const [isValidEmail, setValidEmail] = useState(true);
   const [isValidPassword, setValidPassword] = useState(true);
-
   const [isShowPassword, setShowPassword] = useState(true);
-  const [isShowConfirmPassword, setShowConfirmPassword] = useState(true);
 
   const checkInputValue = () => {
-    ValidationEmail(email) ? setValidEmail(true) : setValidEmail(false); 
-    ValidationPassword(password) ? setValidPassword(true) : setValidPassword(false); 
-       
-    if (ValidationEmail(email) && ValidationPassword(password) && (password == confirmPassword))
-    {
-      console.log("gooo")
-    }    
+    !ValidationEmail(email) ? setValidEmail(false) : setValidEmail(true);
+    !ValidationPassword(password) ? setValidPassword(false) : setValidPassword(true);
+
+    if (email && password) {
+      handleSubmit();
+    }
   };
+
+  const handleSubmit = async () => {
+    const token = await loginUser({
+      email,
+      password
+    });
+    setToken(token);
+  }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.textTitle}>Заполните поля для регистрации</Text>
+      <Text style={styles.textTitle}>BattleCommander</Text>
+      <Image
+        style={styles.logo}
+        source={require("../../assets/images/Logo.png")}
+      />
       <TextInput
         mode={"outlined"}
         label="Email"
@@ -57,33 +65,23 @@ export default function Registration({ navigation }) {
       {isValidPassword ? null : (
         <Text style={styles.textError}>Введите пароль</Text>
       )}
-      <TextInput
-        mode={"outlined"}
-        label="Confirm the password"
-        value={confirmPassword}
-        onChangeText={(text) => setConfirmPassword(text)}
-        style={styles.textInput}
-        secureTextEntry={isShowConfirmPassword}  
-        error={!isValidPassword}   
-        right={
-          <TextInput.Icon
-            name={isShowConfirmPassword ? "eye" : "eye-off"}
-            style={styles.iconEye}
-            onPress={() => setShowConfirmPassword(!isShowConfirmPassword)}
-          />
-        }
-        
-      />
-      {password == confirmPassword ? null : (
-        <Text style={styles.textError}>Пароли не совпадают</Text>
-      )}
+      <Button mode="contained" style={styles.button} onPress={checkInputValue}>
+        Войти
+      </Button>
       <Button
         mode="contained"
-        style={styles.loginButton}
-        onPress={() => checkInputValue()}
+        style={styles.registrationButton}
+        onPress={() => navigation.navigate("Registration")}
       >
-        OK
+        Зарегистрироваться
       </Button>
+      <Text
+        style={styles.linkText}
+        onPress={() => navigation.navigate("Restore")}
+      >
+        Забыли пароль?
+        <Text> Восстановить</Text>
+      </Text>
     </View>
   );
 }
@@ -99,8 +97,12 @@ const styles = StyleSheet.create({
     fontSize: "25px",
     color: "#978665",
     fontWeight: "bold",
-    width: "80%",
-    textAlign: "center",
+    marginBottom: "25px",
+  },
+  linkText: {
+    fontSize: "14px",
+    color: "#978665",
+    fontWeight: "normal",
   },
   textError: {
     marginTop: "10px",
@@ -110,14 +112,14 @@ const styles = StyleSheet.create({
     textAlign: "left",
     width: "84%",
   },
+  logo: {
+    height: "250px",
+    width: "250px",
+    marginBottom: "25px",
+  },
   iconEye: {
     position: "absolute",
     top: "12px",
-  },
-  logo: {
-    height: "150px",
-    width: "150px",
-    marginBottom: "25px",
   },
   textInput: {
     height: "40px",
@@ -126,11 +128,19 @@ const styles = StyleSheet.create({
     backgroundColor: "#000",
     borderWidth: "2px",
   },
-  loginButton: {
+  button: {
     height: "56px",
     width: "350px",
     marginTop: "25px",
     paddingTop: "12px",
+    marginBottom: "25px",
+  },
+  registrationButton: {
+    height: "56px",
+    width: "350px",
+    marginTop: "25px",
+    paddingTop: "12px",
+    marginTop: "0",
     marginBottom: "25px",
   },
 });
