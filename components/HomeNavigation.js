@@ -2,12 +2,15 @@ import { StyleSheet } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import Home from "../Pages/home/home";
-
+import BottomTabMenu from "./BottomTabMenu";
 export default function HomeNavigation() {
+  return (
+    <NavigationContainer>
+      <BottomTabMenu />
+    </NavigationContainer>
+  );
 
-    const Stack = createNativeStackNavigator();
-  
-    return (
+  /*return (
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen
@@ -27,5 +30,5 @@ export default function HomeNavigation() {
           />
         </Stack.Navigator>
       </NavigationContainer>
-    );
-  }
+    );-*/
+}

@@ -3,12 +3,45 @@ import React from "react";
 import { TextInput, Button } from "react-native-paper";
 import { Switch } from "react-native-paper";
 
-export default function Home() {
-  
+export default function Settings() {
+  const [isSwitchOn, setIsSwitchOn] = React.useState(false);
+  const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Home!</Text>
+    <View style={styles.pageContainer}>
+      <View style={styles.avatarContainer}>
+        <Image
+          style={styles.avatar}
+          source={require("../../assets/images/avatar.jpg")}
+        />
+        <Text style={styles.textName}>Name</Text>
       </View>
+      <View style={styles.textInputContainer}>
+        <View style={styles.switchContainer}>
+          <Text style={styles.textSwitch}>Уведомления</Text>
+          <Switch
+            value={isSwitchOn}
+            onValueChange={onToggleSwitch}
+            color={"#978665"}
+          />
+        </View>
+        <TextInput
+          mode={"outlined"}
+          label="Позывной"
+          value={"Name Firstname"}
+          style={styles.textInput}
+        />
+        <TextInput
+          mode={"outlined"}
+          label="Команда"
+          style={styles.textInput}
+          value={"Name of command"}
+        />
+        <Button mode="contained" style={styles.registrationButton}>
+          Сохранить
+        </Button>
+      </View>
+      <View style={styles.listContainer}></View>
+    </View>
   );
 }
 
@@ -48,7 +81,7 @@ const styles = StyleSheet.create({
   textSwitch: {
     color: "#978665",
     fontSize: "15px",
-    marginRight: "10px"
+    marginRight: "10px",
   },
   textInput: {
     height: "40px",
@@ -75,6 +108,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     marginTop: "25px",
-    width: "85%"
-  }
+    width: "85%",
+  },
 });
